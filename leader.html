@@ -98,7 +98,7 @@
                     var receiverUrl = document.querySelector('.receiver-url');
                     var url = window.location.href.replace("leader", "session") + "#" + sessionId;
                     receiverUrl.href = url;
-                    receiverUrl.replaceChild(document.createTextNode(url));
+                    receiverUrl.replaceChildren(document.createTextNode(url));
                 }
 
 /**
