@@ -78,7 +78,7 @@
                     console.log('local user media', stream);
                     mediaStream = stream;
                     localVideo.srcObject = mediaStream;
-                    //localVideo.play();
+                    localVideo.play();
                 })
                 .catch(function(err) {
                   /* handle the error */
