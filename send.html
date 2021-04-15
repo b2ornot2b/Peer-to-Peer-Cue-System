@@ -89,7 +89,7 @@
                   /* use the stream */
                     console.log('local user media', stream);
                     mediaStream = stream;
-                    localVideo = mediaStream;
+                    localVideo.srcObject = mediaStream;
                     localVideo.play();
                 })
                 .catch(function(err) {
