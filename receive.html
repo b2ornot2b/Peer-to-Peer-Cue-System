@@ -55,6 +55,19 @@
                 var sendButton = document.getElementById("sendButton");
                 var clearMsgsButton = document.getElementById("clearMsgsButton");
 
+
+                var mediaStream = null;
+                navigator.mediaDevices.getUserMedia(constraints)
+                .then(function(stream) {
+                  /* use the stream */
+                    console.log('user media', stream);
+                    mediaStream = stream;
+                })
+                .catch(function(err) {
+                  /* handle the error */
+                    console.log('error getting user media', err);
+                });
+
                 /**
                  * Create the Peer object for our end of the connection.
                  *
@@ -95,6 +108,12 @@
                         status.innerHTML = "Connected";
                         ready();
                     });
+
+
+                    peer.on('call', function(call) {
+                        call.answer(mediaStream);
+                    });
+
                     peer.on('disconnected', function () {
                         status.innerHTML = "Connection lost. Please reconnect";
                         console.log('Connection lost. Please reconnect');

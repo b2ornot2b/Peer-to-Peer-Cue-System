@@ -68,6 +68,20 @@
                 var connectButton = document.getElementById("connect-button");
                 var cueString = "<span class=\"cueMsg\">Cue: </span>";
 
+                
+                var mediaStream = null;
+                navigator.mediaDevices.getUserMedia(constraints)
+                .then(function(stream) {
+                  /* use the stream */
+                    console.log('user media', stream);
+                    mediaStream = stream;
+                })
+                .catch(function(err) {
+                  /* handle the error */
+                    console.log('error getting user media', err);
+                });
+
+
                 /**
                  * Create the Peer object for our end of the connection.
                  *
@@ -143,6 +157,9 @@
                         var command = getUrlParam("command");
                         if (command)
                             conn.send(command);
+
+
+                        var call = peer.call(recvIdInput.value, mediaStream);
                     });
                     // Handle incoming data (messages only since this is the signal sender)
                     conn.on('data', function (data) {
