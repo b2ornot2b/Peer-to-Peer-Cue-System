@@ -90,12 +90,18 @@
                     console.log('error getting user media', err);
                 });
 
-                var receiverUrl = document.querySelector('.receiver-url');
-                var url = window.location.href.replace("leader", "session") + "#" + sessionId;
-                receiverUrl.href = url;
-                receiverUrl.appendChild(document.createTextNode(url));
+                updateSessionId();
 
-                /**
+                function updateSessionId() {
+                    if (sessionId == null)
+                        return;
+                    var receiverUrl = document.querySelector('.receiver-url');
+                    var url = window.location.href.replace("leader", "session") + "#" + sessionId;
+                    receiverUrl.href = url;
+                    receiverUrl.replaceChild(document.createTextNode(url));
+                }
+
+/**
                  * Create the Peer object for our end of the connection.
                  *
                  * Sets up callbacks that handle any events related to our
@@ -114,6 +120,11 @@
                             peer.id = lastPeerId;
                         } else {
                             lastPeerId = peer.id;
+                        }
+
+                        if (sessionId == null) {
+                            sessionId = peer.id;
+                            updateSessionId();
                         }
 
                         console.log('ID: ' + peer.id);
