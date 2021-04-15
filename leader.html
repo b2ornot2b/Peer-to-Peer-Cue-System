@@ -132,12 +132,12 @@
                     peer.on('call', function(call) {
                         console.log('on call', call, mediaStream);
                         call.answer(mediaStream);
+                        var remoteVideo = document.createElement('video');
+                        remoteVideo.autoplay = true;
+                        remoteVideos.appendChild(remoteVideo);
                         call.on('stream', function(stream) {
                             console.log('on stream', stream);
-                            var remoteVideo = document.createElement('video');
-                            remoteVideo.autoplay = true;
                             remoteVideo.srcObject = stream;
-                            remoteVideos.appendChild(remoteVideo);
                             //remoteVideo.play();
                         });
                     });
