@@ -15,7 +15,7 @@
             <tr>
                 <td>
                     <div id="receiver-id" style="font-weight: bold;" title="Send this ID to the followers">Session ID:</div>
-                    <div class="receiver-url"></div>
+                    <a class="receiver-url"></a>
                 </td>
                 <td>
                     <input type="text" id="sendMessageBox" placeholder="Enter a message..." autofocus="true" />
@@ -29,6 +29,7 @@
             </tr>
             <tr>
                 <td>
+                    <canvas id="local-audio-analyser"></canvas>
                     <video class="local-video autoplay"></video>
                 </td>
                 <td>
@@ -91,6 +92,7 @@
 
                 var receiverUrl = document.querySelector('.receiver-url');
                 var url = window.location.href.replace("leader", "session");
+                receiverUrl.href = url;
                 receiverUrl.appendChild(document.createTextNode(url));
 
                 /**
