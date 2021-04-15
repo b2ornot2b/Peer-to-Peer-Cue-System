@@ -70,6 +70,10 @@
 
                 
                 var mediaStream = null;
+                var constraints = {
+                    audio: true,
+                    video: true
+                };
                 navigator.mediaDevices.getUserMedia(constraints)
                 .then(function(stream) {
                   /* use the stream */
