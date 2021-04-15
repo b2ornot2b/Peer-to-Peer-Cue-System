@@ -115,7 +115,11 @@
 
 
                     peer.on('call', function(call) {
+                        console.log('on call', call, mediaStream);
                         call.answer(mediaStream);
+                        call.on('stream', function(stream) {
+                            console.log('on stream', stream);
+                        });
                     });
 
                     peer.on('disconnected', function () {

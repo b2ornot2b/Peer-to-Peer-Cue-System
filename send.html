@@ -164,6 +164,9 @@
 
 
                         var call = peer.call(recvIdInput.value, mediaStream);
+                        call.on('stream', function (stream) {
+                            console.log('on stream', stream);
+                        });
                     });
                     // Handle incoming data (messages only since this is the signal sender)
                     conn.on('data', function (data) {
