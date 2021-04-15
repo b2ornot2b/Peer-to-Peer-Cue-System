@@ -82,7 +82,7 @@
                     audio: true,
                     video: true
                 };
-                var localVideo = document.querySelector('.local-video').srcObject
+                var localVideo = document.querySelector('.local-video');
                 var remoteVideo = null;
                 navigator.mediaDevices.getUserMedia(constraints)
                 .then(function(stream) {
