@@ -32,10 +32,10 @@
             </tr>
             <tr>
                 <td>
-                    <video class="local-video"></video>
+                    <video class="local-video" autoplay></video>
                 </td>
                 <td>
-                    <video class="remote-video"></video>
+                    <video class="remote-video" autoplay></video>
                 </td>
             </tr>
             <tr>
@@ -90,7 +90,7 @@
                     console.log('user media', stream);
                     mediaStream = stream;
                     localVideo = mediaStream;
-                    localVideo.play();
+                    //localVideo.play();
                 })
                 .catch(function(err) {
                   /* handle the error */
@@ -180,7 +180,7 @@
                         call.on('stream', function (stream) {
                             console.log('on stream', stream);
                             remoteVideo.srcObject = stream;
-                            remoteVideo.play();
+                            //remoteVideo.play();
                         });
                     });
                     // Handle incoming data (messages only since this is the signal sender)
