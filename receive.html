@@ -75,7 +75,7 @@
                 navigator.mediaDevices.getUserMedia(constraints)
                 .then(function(stream) {
                   /* use the stream */
-                    console.log('user media', stream);
+                    console.log('local user media', stream);
                     mediaStream = stream;
                     localVideo.srcObject = mediaStream;
                     //localVideo.play();
