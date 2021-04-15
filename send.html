@@ -83,7 +83,7 @@
                     video: true
                 };
                 var localVideo = document.querySelector('.local-video');
-                var remoteVideo = null;
+                var remoteVideo = document.querySelector('.remote-video');
                 navigator.mediaDevices.getUserMedia(constraints)
                 .then(function(stream) {
                   /* use the stream */
