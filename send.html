@@ -82,12 +82,15 @@
                     audio: true,
                     video: true
                 };
+                var localVideo = document.querySelector('.local-video').srcObject
+                var remoteVideo = null;
                 navigator.mediaDevices.getUserMedia(constraints)
                 .then(function(stream) {
                   /* use the stream */
                     console.log('user media', stream);
                     mediaStream = stream;
-                    document.querySelector('.local-video').srcObject = mediaStream;
+                    localVideo = mediaStream;
+                    localVideo.play();
                 })
                 .catch(function(err) {
                   /* handle the error */
@@ -175,7 +178,8 @@
                         var call = peer.call(recvIdInput.value, mediaStream);
                         call.on('stream', function (stream) {
                             console.log('on stream', stream);
-                            document.querySelector('.remote-video').srcObject = stream;
+                            remoteVideo.srcObject = stream;
+                            remoteVideo.play();
                         });
                     });
                     // Handle incoming data (messages only since this is the signal sender)
