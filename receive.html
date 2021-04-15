@@ -52,7 +52,7 @@
                 var lastPeerId = null;
                 var peer = null; // Own peer object
                 var peerId = null;
-                var conn = null;
+                var conn = [];
                 var recvId = document.getElementById("receiver-id");
                 var status = document.getElementById("status");
                 var message = document.getElementById("message");
@@ -111,6 +111,7 @@
                         status.innerHTML = "Awaiting connection...";
                     });
                     peer.on('connection', function (c) {
+                        /*
                         // Allow only a single connection
                         if (conn && conn.open) {
                             c.on('open', function() {
@@ -119,11 +120,12 @@
                             });
                             return;
                         }
+                        */
 
-                        conn = c;
-                        console.log("Connected to: " + conn.peer);
+                        conn.push(c);
+                        console.log("Connected to: " + c.peer);
                         status.innerHTML = "Connected";
-                        ready();
+                        ready(c);
                     });
 
 
@@ -139,7 +141,7 @@
 
                     peer.on('disconnected', function () {
                         status.innerHTML = "Connection lost. Please reconnect";
-                        console.log('Connection lost. Please reconnect');
+                        console.log('Connection lost. Please reconnect', this, arguments);
 
                         // Workaround for peer.reconnect deleting previous id
                         peer.id = lastPeerId;
@@ -147,12 +149,12 @@
                         peer.reconnect();
                     });
                     peer.on('close', function() {
-                        conn = null;
+                        //conn = null;
                         status.innerHTML = "Connection destroyed. Please refresh";
-                        console.log('Connection destroyed');
+                        console.log(conn, 'Connection destroyed', this, arguments);
                     });
                     peer.on('error', function (err) {
-                        console.log(err);
+                        console.log(err, this, arguments);
                         alert('' + err);
                     });
                 };
@@ -161,8 +163,8 @@
                  * Triggered once a connection has been achieved.
                  * Defines callbacks to handle incoming data and connection events.
                  */
-                function ready() {
-                    conn.on('data', function (data) {
+                function ready(c) {
+                    c.on('data', function (data) {
                         console.log("Data recieved");
                         var cueString = "<span class=\"cueMsg\">Cue: </span>";
                         switch (data) {
@@ -187,9 +189,13 @@
                                 break;
                         };
                     });
-                    conn.on('close', function () {
+                    c.on('close', function () {
                         status.innerHTML = "Connection reset<br>Awaiting connection...";
-                        conn = null;
+                        //conn = null;
+                        var i = conn.indexOf(c);
+                        if (i > -1)
+                            conn.splice(i, 1);
+                        console.log('removed ', c, conn);
                     });
                 }
 
@@ -259,6 +265,7 @@
                 });
                 // Send message
                 sendButton.addEventListener('click', function () {
+                    console.warn("UNIMPLEMENTED MULTIPLE SEND");
                     if (conn && conn.open) {
                         var msg = sendMessageBox.value;
                         sendMessageBox.value = "";
