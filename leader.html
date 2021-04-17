@@ -70,9 +70,11 @@
                 var clearMsgsButton = document.getElementById("clearMsgsButton");
 
 
+                const audioContext = new AudioContext();
+                
                 var mediaStream = null;
                 var constraints = {
-                    audio: false,
+                    audio: true,
                     video: true
                 };
                 var localVideo = document.querySelector('.local-video');
@@ -81,14 +83,21 @@
                 .then(function(stream) {
                   /* use the stream */
                     console.log('local user media', stream);
+
                     mediaStream = stream;
-                    localVideo.srcObject = mediaStream;
+                    
+                    // Local Preview without mic
+                    var localMediaStream = new MediaStream(stream);
+                    var micTrack = localMediaStream.getAudioTracks()[0];
+                    localMediaStream.removeTrack(micTrack);
+                    localVideo.srcObject = localMediaStream;
                     localVideo.play();
                 })
                 .catch(function(err) {
                   /* handle the error */
                     console.log('error getting user media', err);
                 });
+
 
                 updateSessionId();
 
