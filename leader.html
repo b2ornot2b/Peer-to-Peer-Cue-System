@@ -176,28 +176,41 @@
                             // Called twice 
                             console.log('on stream', stream);
 
+                        var ms = stream.clone();
+
                         var remoteAudioTrack = stream.getAudioTracks()[0];
                         console.log('remoteAudioTrack', remoteAudioTrack);
                         if (remoteAudioTrack === undefined)
                             return;
                         stream.removeTrack(remoteAudioTrack);
+                       remoteVideo.srcObject = stream;
 
                         // TODO: Place the audio in 
+
+                        var vt = stream.getVideoTracks()[0];
+                        console.log('video track', vt);
+                        if (vt === undefined)
+                            return;
+                        ms.removeTrack(vt);
+                        console.log(ms);
+                        var remoteAudioNode = audioContext.createMediaStreamSource(ms);
+                        remoteAudioNode.connect(audioContext.destination);
+
+                        console.log(remoteAudioNode);
+                        return;
                         var audioElem = document.createElement('audio');
                         remoteVideos.appendChild(audioElem);
                         var remoteAudioSrc = audioContext.createMediaElementSource(audioElem);
 
-                    var ms = new MediaStream();
-                        ms.addTrack(remoteAudioTrack);
+                    //var ms = new MediaStream();
+                    //    ms.addTrack(remoteAudioTrack);
 
-                        var remoteAudioNode = audioContext.createMediaStreamSource(ms);
 
                         var panNode = audioContext.createStereoPanner();
-                        panNode.pan.value = -1;
+                        panNode.pan.value = 0;
                         remoteAudioNode.connect(panNode);
                         panNode.connect(audioContext.destination);
 
-                       remoteVideo.srcObject = stream;
                             //remoteVideo.play();
                         });
                     });
