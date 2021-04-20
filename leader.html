@@ -214,23 +214,26 @@
                             src.connect(gainNode);
                             console.log('gain', gainNode);
 
+                            if (false) {
                             var panNode = audioContext.createStereoPanner();
                             panNode.pan.value = -1;
                             gainNode.connect(panNode);
                             console.log('pan', panNode);
 
                             panNode.connect(audioContext.destination);
+                            } else {
+                                var panNode = audioContext.createPanner({
+                                    panningModel: 'HRTF'
+                                });
+
+                                gainNode.connect(panNode);
+                                console.log('hrtf pan', panNode);
+                                panNode.connect(audioContext.destination);
+
+
+                            }
 
                             console.log('remoteAudio', remoteAudio);
-
-
-
-                            /*var panNode = audioContext.createStereoPanner();
-                            panNode.pan.value = 0;
-                            remoteAudioNode.connect(panNode);
-                            panNode.connect(audioContext.destination);
-                            console.log(panNode);*/
-
 
                             return;
                         });
