@@ -202,12 +202,14 @@
                             }
                             remoteVideo.srcObject = stream;
 
-                            var src = audioContext.createMediaStreamSource(stream);
-                            remoteAudio.srcObject = stream;
+                            var astream = stream.clone();
+                            remoteAudio.srcObject = astream;
+                            var src = audioContext.createMediaStreamSource(astream);
                             var gain = audioContext.createGain();
                             src.connect(gain);
                             gain.connect(audioContext.destination);
                             console.log('gain', gain);
+                            console.log('remoteAudio', remoteAudio);
 
 
 
