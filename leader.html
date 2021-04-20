@@ -177,6 +177,11 @@
                         remoteVideo.muted = true;
                         remoteVideos.appendChild(remoteVideo);
 
+                        var remoteAudio = document.createElement('audio');
+                        remoteAudio.autoplay = true;
+                        remoteAudio.muted = true;
+                        remoteVideos.appendChild(remoteAudio);
+
                         call.answer(mediaStream);
 
                         call.on('stream', function(stream) {
@@ -190,6 +195,7 @@
                             remoteVideo.srcObject = stream;
 
                             var src = audioContext.createMediaStreamSource(stream);
+                            remoteAudio.srcObject = stream;
                             var gain = audioContext.createGain();
                             src.connect(gain);
                             gain.connect(audioContext.destination);
