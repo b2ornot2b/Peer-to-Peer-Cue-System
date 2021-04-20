@@ -171,51 +171,32 @@
 
                     peer.on('call', function(call) {
                         console.log('on call', call, mediaStream);
-                        call.answer(mediaStream);
+
                         var remoteVideo = document.createElement('video');
                         remoteVideo.autoplay = true;
+                        remoteVideo.muted = true;
                         remoteVideos.appendChild(remoteVideo);
+
+                        call.answer(mediaStream);
+
                         call.on('stream', function(stream) {
                             // Called twice 
                             console.log('on stream', stream);
+                            
+                            if (remoteVideo.srcObject) {
+                                console.log('twice');
+                                return;
+                            }
+                            remoteVideo.srcObject = stream;
 
-                        /*var ms = stream.clone();
+                            var remoteAudioNode = audioContext.createMediaStreamSource(stream);
+                            var panNode = audioContext.createStereoPanner();
+                            panNode.pan.value = 0;
+                            remoteAudioNode.connect(panNode);
+                            panNode.connect(audioContext.destination);
 
-                        var remoteAudioTrack = stream.getAudioTracks()[0];
-                        console.log('remoteAudioTrack', remoteAudioTrack);
-                        if (remoteAudioTrack === undefined)
+                            console.log(panNode);
                             return;
-                        stream.removeTrack(remoteAudioTrack);*/
-                       remoteVideo.srcObject = stream;
-
-                        // TODO: Place the audio in 
-
-                                /*
-                        var vt = ms.getVideoTracks()[0];
-                        console.log('video track', vt);
-                        if (vt === undefined)
-                            return;
-                        ms.removeTrack(vt);
-                        console.log(ms);
-                            */
-                        var remoteAudioNode = audioContext.createMediaStreamSource(stream);
-                        var panNode = audioContext.createStereoPanner();
-                        panNode.pan.value = 0;
-                        remoteAudioNode.connect(panNode);
-                        panNode.connect(audioContext.destination);
-
-                        console.log(panNode);
-                        return;
-                        var audioElem = document.createElement('audio');
-                        remoteVideos.appendChild(audioElem);
-                        var remoteAudioSrc = audioContext.createMediaElementSource(audioElem);
-
-                    //var ms = new MediaStream();
-                    //    ms.addTrack(remoteAudioTrack);
-
-
-
-                            //remoteVideo.play();
                         });
                     });
 
