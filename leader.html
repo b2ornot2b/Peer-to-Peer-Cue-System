@@ -130,7 +130,9 @@
                  var audioContext = null;
 
                 function start() {
+                    console.log('start');
                     audioContext = new AudioContext();
+                    initialize();
                 }
                 
                  function initialize() {
@@ -204,11 +206,21 @@
 
                             var astream = stream.clone();
                             remoteAudio.srcObject = astream;
+
                             var src = audioContext.createMediaStreamSource(astream);
-                            var gain = audioContext.createGain();
-                            src.connect(gain);
-                            gain.connect(audioContext.destination);
-                            console.log('gain', gain);
+
+                            var gainNode = audioContext.createGain();
+                            gainNode.gain.value = 2;
+                            src.connect(gainNode);
+                            console.log('gain', gainNode);
+
+                            var panNode = audioContext.createStereoPanner();
+                            panNode.pan.value = -1;
+                            gainNode.connect(panNode);
+                            console.log('pan', panNode);
+
+                            panNode.connect(audioContext.destination);
+
                             console.log('remoteAudio', remoteAudio);
 
 
@@ -367,7 +379,6 @@
 
                 startButton.addEventListener('click', start);
 
-                initialize();
             })();
         </script>
     </body>
