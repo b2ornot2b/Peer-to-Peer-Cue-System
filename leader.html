@@ -214,24 +214,14 @@
                             src.connect(gainNode);
                             console.log('gain', gainNode);
 
-                            if (false) {
-                            var panNode = audioContext.createStereoPanner();
-                            panNode.pan.value = -1;
+                            var panNode = audioContext.createPanner({
+                                panningModel: 'HRTF'
+                            });
+                            panNode.positionX.value = 0; // position this based on remote video pos -10 to 10
+
                             gainNode.connect(panNode);
-                            console.log('pan', panNode);
-
+                            console.log('hrtf pan', panNode);
                             panNode.connect(audioContext.destination);
-                            } else {
-                                var panNode = audioContext.createPanner({
-                                    panningModel: 'HRTF'
-                                });
-
-                                gainNode.connect(panNode);
-                                console.log('hrtf pan', panNode);
-                                panNode.connect(audioContext.destination);
-
-
-                            }
 
                             console.log('remoteAudio', remoteAudio);
 
