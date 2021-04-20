@@ -16,6 +16,7 @@
                 <td>
                     <div id="receiver-id" style="font-weight: bold;" title="Send this ID to the followers">Session ID:</div>
                     <a class="receiver-url"></a>
+                    <button type="button" id="start">Start</button>
                 </td>
                 <td>
                     <input type="text" id="sendMessageBox" placeholder="Enter a message..." autofocus="true" />
@@ -75,6 +76,7 @@
                 var sendMessageBox = document.getElementById("sendMessageBox");
                 var sendButton = document.getElementById("sendButton");
                 var clearMsgsButton = document.getElementById("clearMsgsButton");
+                var startButton = document.getElementById("startButton");
 
 
                 
@@ -126,8 +128,12 @@
                  * peer object.
                  */
                  var audioContext = null;
-                 function initialize() {
+
+                var start() {
                     audioContext = new AudioContext();
+                }
+                
+                 function initialize() {
 
                     // Create own peer object with connection to shared PeerJS server
                     peer = new Peer(sessionId, {
@@ -356,6 +362,8 @@
 
                 // Clear messages box
                 clearMsgsButton.addEventListener('click', clearMessages);
+
+                startButton.addEventListener('click', start);
 
                 initialize();
             })();
