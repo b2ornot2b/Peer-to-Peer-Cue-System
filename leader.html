@@ -94,11 +94,14 @@
                     mediaStream = stream;
                     
                     // Local Preview without mic
+                    /*
                     var localMediaStream = new MediaStream(stream);
                     var micTrack = localMediaStream.getAudioTracks()[0];
                     localMediaStream.removeTrack(micTrack);
-                    localVideo.srcObject = localMediaStream;
+                    */
+                    localVideo.srcObject = mediaStream;
                     localVideo.play();
+                    localVideo.muted = true;
                 })
                 .catch(function(err) {
                   /* handle the error */
@@ -176,27 +179,32 @@
                             // Called twice 
                             console.log('on stream', stream);
 
-                        var ms = stream.clone();
+                        /*var ms = stream.clone();
 
                         var remoteAudioTrack = stream.getAudioTracks()[0];
                         console.log('remoteAudioTrack', remoteAudioTrack);
                         if (remoteAudioTrack === undefined)
                             return;
-                        stream.removeTrack(remoteAudioTrack);
+                        stream.removeTrack(remoteAudioTrack);*/
                        remoteVideo.srcObject = stream;
 
                         // TODO: Place the audio in 
 
-                        var vt = stream.getVideoTracks()[0];
+                                /*
+                        var vt = ms.getVideoTracks()[0];
                         console.log('video track', vt);
                         if (vt === undefined)
                             return;
                         ms.removeTrack(vt);
                         console.log(ms);
-                        var remoteAudioNode = audioContext.createMediaStreamSource(ms);
-                        remoteAudioNode.connect(audioContext.destination);
+                            */
+                        var remoteAudioNode = audioContext.createMediaStreamSource(stream);
+                        var panNode = audioContext.createStereoPanner();
+                        panNode.pan.value = 0;
+                        remoteAudioNode.connect(panNode);
+                        panNode.connect(audioContext.destination);
 
-                        console.log(remoteAudioNode);
+                        console.log(panNode);
                         return;
                         var audioElem = document.createElement('audio');
                         remoteVideos.appendChild(audioElem);
@@ -206,10 +214,6 @@
                     //    ms.addTrack(remoteAudioTrack);
 
 
-                        var panNode = audioContext.createStereoPanner();
-                        panNode.pan.value = 0;
-                        remoteAudioNode.connect(panNode);
-                        panNode.connect(audioContext.destination);
 
                             //remoteVideo.play();
                         });

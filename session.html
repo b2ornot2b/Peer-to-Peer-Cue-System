@@ -99,11 +99,14 @@
                     mediaStream = stream;
                     
                     // Local Preview without mic
+                    /*
                     var localMediaStream = new MediaStream(stream);
                     var micTrack = localMediaStream.getAudioTracks()[0];
                     localMediaStream.removeTrack(micTrack);
-                    localVideo.srcObject = localMediaStream;
+                    */
+                    localVideo.srcObject = mediaStream;
                     localVideo.play();
+                    localVideo.muted = true;
                 })
                 .catch(function(err) {
                   /* handle the error */
