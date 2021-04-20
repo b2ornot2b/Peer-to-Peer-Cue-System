@@ -189,13 +189,21 @@
                             }
                             remoteVideo.srcObject = stream;
 
-                            var remoteAudioNode = audioContext.createMediaStreamSource(stream);
-                            var panNode = audioContext.createStereoPanner();
+                            var src = audioContext.createMediaStreamSource(stream);
+                            var gain = audioContext.createGain();
+                            src.connect(gain);
+                            gain.connect(audioContext.destination);
+                            console.log('gain', gain);
+
+
+
+                            /*var panNode = audioContext.createStereoPanner();
                             panNode.pan.value = 0;
                             remoteAudioNode.connect(panNode);
                             panNode.connect(audioContext.destination);
+                            console.log(panNode);*/
 
-                            console.log(panNode);
+
                             return;
                         });
                     });
