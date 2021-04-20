@@ -77,7 +77,6 @@
                 var clearMsgsButton = document.getElementById("clearMsgsButton");
 
 
-                const audioContext = new AudioContext();
                 
                 var mediaStream = null;
                 var constraints = {
@@ -126,7 +125,10 @@
                  * Sets up callbacks that handle any events related to our
                  * peer object.
                  */
+                 var audioContext = null;
                  function initialize() {
+                    audioContext = new AudioContext();
+
                     // Create own peer object with connection to shared PeerJS server
                     peer = new Peer(sessionId, {
                         debug: 2
