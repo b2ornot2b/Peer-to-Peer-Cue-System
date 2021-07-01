@@ -174,7 +174,13 @@
                     console.log('local user media', stream);
 
                     mediaStream = stream;
-                    
+    
+                    var newTrack;
+                    if (sourceType == "audioSource")
+                        newTrack =  stream.getAudioTracks()[0];
+                    else (sourceType == "videoSource")
+                        newTrack = stream.getVideoTracks()[0];
+ 
                     // Local Preview without mic
                     /*
                     var localMediaStream = new MediaStream(stream);
@@ -184,6 +190,20 @@
                     localVideo.srcObject = mediaStream;
                     localVideo.play();
                     localVideo.muted = true;
+
+
+                    for (const [key, value] of Object.entries(peer.connections)) {
+                        console.log(key, value);
+                        for (p in value) { 
+                            var sender = value[p].peerConnection.getSenders().find((s)=> {
+                                return s.track.kind == newTrack.kind;
+                            });
+                            if (sender)
+                            sender.replaceTrack(newTrack);
+                        }
+                    }
+ 
+
                 })
                 .catch(function(err) {
                   /* handle the error */
