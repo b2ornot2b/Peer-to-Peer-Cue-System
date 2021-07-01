@@ -156,6 +156,17 @@
             }
                         
 
+            function doInputMediaChanged() {
+                console.log('doInputMediaChanged', this, arguments);
+            }
+            function doOutputMediaChanged() {
+                console.log('doOutputMediaChanged', this, arguments);
+            }
+
+            audioInputSelect.onchange = doInputMediaChanged;
+            audioOutputSelect.onchange = doOutputMediaChanged;
+            videoSelect.onchange = doInputMediaChanged;
+
             navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
 
 
