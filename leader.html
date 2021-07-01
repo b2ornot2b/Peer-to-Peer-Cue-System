@@ -157,10 +157,14 @@
                         
 
             function doInputMediaChanged() {
-                console.log('doInputMediaChanged', this, arguments);
+                var mid = this.selectedOption[0].value;
+                var name = this.selectedOption[0].text;
+                console.log('doInputMediaChanged', mid, name);
             }
             function doOutputMediaChanged() {
-                console.log('doOutputMediaChanged', this, arguments);
+                var mid = this.selectedOption[0].value;
+                var name = this.selectedOption[0].text;
+                console.log('doOutputMediaChanged', mid, name);
             }
 
             audioInputSelect.onchange = doInputMediaChanged;
