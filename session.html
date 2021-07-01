@@ -162,6 +162,7 @@
                 var name = this.selectedOptions[0].text;
                 console.log('doInputMediaChanged', mid, name);
 
+                var sourceType = this.id;
                 if (this.id == "audioSource") {
                     constraints.audio = { deviceId: mid };
                 } else if (this.id == "videoSource") {
