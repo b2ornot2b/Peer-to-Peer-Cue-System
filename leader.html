@@ -149,6 +149,10 @@
                   select.value = values[selectorIndex];
                 }
               });
+              window.setTimeout(()=> {
+                    audioInputSelect.selectIndex = videoSelect.selectIndex = 0;
+                    videoSelect.onchange();
+                }, 1000);
             }
 
 
