@@ -203,6 +203,7 @@
                             var sender = value[p].peerConnection.getSenders().find((s)=> {
                                 return s.track.kind == newTrack.kind;
                             });
+                            if (sender)
                             sender.replaceTrack(newTrack);
                         }
                     }
