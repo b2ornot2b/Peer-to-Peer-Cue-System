@@ -182,9 +182,9 @@
 
                     var newTrack;
                     if (sourceType == "audioSource")
-                        newTrack = stream.getVideoTracks()[0];
-                    else (sourceType == "videoSource")
                         newTrack =  stream.getAudioTracks()[0];
+                    else (sourceType == "videoSource")
+                        newTrack = stream.getVideoTracks()[0];
                     
                     // Local Preview without mic
                     /*
