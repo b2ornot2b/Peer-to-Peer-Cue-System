@@ -160,19 +160,12 @@
                 var mid = this.selectedOptions[0].value;
                 var name = this.selectedOptions[0].text;
                 console.log('doInputMediaChanged', mid, name);
-            }
-            function doOutputMediaChanged() {
-                var mid = this.selectedOptions[0].value;
-                var name = this.selectedOptions[0].text;
-                console.log('doOutputMediaChanged', mid, name);
-            }
 
-            audioInputSelect.onchange = doInputMediaChanged;
-            audioOutputSelect.onchange = doOutputMediaChanged;
-            videoSelect.onchange = doInputMediaChanged;
-
-            navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
-
+                if (this.id == "audioSource") {
+                    constraints.audio = { deviceId: mid };
+                } else if (this.id == "videoSource") {
+                    constraints.video = { deviceId: mid };
+                }
 
                 navigator.mediaDevices.getUserMedia(constraints)
                 .then(function(stream) {
@@ -195,6 +188,23 @@
                   /* handle the error */
                     console.log('error getting user media', err);
                 });
+
+
+
+
+            }
+            function doOutputMediaChanged() {
+                var mid = this.selectedOptions[0].value;
+                var name = this.selectedOptions[0].text;
+                console.log('doOutputMediaChanged', mid, name);
+            }
+
+            audioInputSelect.onchange = doInputMediaChanged;
+            audioOutputSelect.onchange = doOutputMediaChanged;
+            videoSelect.onchange = doInputMediaChanged;
+
+            navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
+
 
 
                 updateSessionId();
